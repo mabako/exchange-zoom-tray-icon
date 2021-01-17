@@ -8,14 +8,15 @@ on:
 
 jobs:
   build:
-
     runs-on: windows-latest
-
+    strategy:
+      matrix:
+        release-type: [Debug, Release]
     steps:
     - uses: actions/checkout@v2
     
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
 
-    - name: Build
-      run: msbuild -restore ExchangeApp.sln
+    - name: Build ${{ matrix.release-type }}
+      run: msbuild -restore ExchangeApp.sln /p:Configuration=${{ matrix.release-type }}
