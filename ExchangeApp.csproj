@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net48</TargetFramework>
+        <UseWindowsForms>true</UseWindowsForms>
+        <ApplicationIcon>Resources\bell_yellow.ico</ApplicationIcon>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="System.Security" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Exchange.WebServices" Version="2.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Properties\Icons.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Icons.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Localization\Translations.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Translations.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+    
+    <ItemGroup>
+        <EmbeddedResource Update="Properties\Icons.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Icons.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Localization\Translations.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Translations.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
+</Project>
