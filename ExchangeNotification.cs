@@ -116,60 +116,61 @@ namespace ExchangeApp
         /// </summary>
         private void UpdateMenuItems(IReadOnlyList<EventDetails> upcomingEvents, IReadOnlyList<EventDetails> stickyEvents)
         {
-            ContextMenu newMenu = new ContextMenu();
+            ContextMenuStrip newMenu = new ContextMenuStrip();
             const string separator = "-";
 
             if (stickyEvents.Any())
             {
                 foreach (EventDetails details in stickyEvents)
                 {
-                    const string unicodePin = "\ud83d\udccc";
-                    MenuItem item = new MenuItem($"{unicodePin} {details.ToString(false)}");
+                    ToolStripMenuItem item = new ToolStripMenuItem(details.ToString(false), Icons.pushpin_line);
                     item.Tag = details.ZoomLink;
                     item.Click += (sender, e) => OpenZoomLink(item.Tag);
 
-                    newMenu.MenuItems.Add(item);
+                    newMenu.Items.Add(item);
                 }
 
-                newMenu.MenuItems.Add(separator);
+                newMenu.Items.Add(separator);
             }
 
             if (upcomingEvents.Any())
             {
                 foreach (EventDetails details in upcomingEvents)
                 {
-                    MenuItem item = new MenuItem(details.ToString(true));
+                    ToolStripMenuItem item = new ToolStripMenuItem(details.ToString(true));
                     item.Tag = details.ZoomLink;
                     item.Click += (sender, e) => OpenZoomLink(item.Tag);
 
-                    newMenu.MenuItems.Add(item);
+                    newMenu.Items.Add(item);
                 }
 
-                newMenu.MenuItems.Add(separator);
+                newMenu.Items.Add(separator);
             }
 
 #if DEBUG
             if (_updater.LastFetch != default || _updater.LastUpdate != default)
             {
-                newMenu.MenuItems.Add($"Fetch: {_updater.LastFetch}");
-                newMenu.MenuItems.Add($"Update: {_updater.LastUpdate}");
-                newMenu.MenuItems.Add(separator);
+                string ShortenTime(DateTime t) => t.Date == DateTime.Today ? $"{t:T}" : $"{t:G}";
+
+                newMenu.Items.Add($"Last EWS call: {ShortenTime(_updater.LastFetch)}", Icons.download_cloud_2_line);
+                newMenu.Items.Add($"Last update: {ShortenTime(_updater.LastUpdate)}");
+                newMenu.Items.Add(separator);
             }
 #endif
 
-            MenuItem sync = new MenuItem(Translations.Tray_Actions_Sync_now);
+            ToolStripMenuItem sync = new ToolStripMenuItem(Translations.Tray_Actions_Sync_now, Icons.refresh_line);
             sync.Click += (sender, e) => _updater.Update(true);
-            newMenu.MenuItems.Add(sync);
+            newMenu.Items.Add(sync);
 
-            MenuItem config = new MenuItem(Translations.Tray_Actions_Configuration);
+            ToolStripMenuItem config = new ToolStripMenuItem(Translations.Tray_Actions_Configuration);
             config.Click += OpenConfiguration;
-            newMenu.MenuItems.Add(config);
+            newMenu.Items.Add(config);
 
-            MenuItem exit = new MenuItem(Translations.Tray_Actions_Exit);
+            ToolStripMenuItem exit = new ToolStripMenuItem(Translations.Tray_Actions_Exit, Icons.close_line);
             exit.Click += (sender, e) => _notifyIcon.Visible = false;
-            newMenu.MenuItems.Add(exit);
+            newMenu.Items.Add(exit);
 
-            _notifyIcon.ContextMenu = newMenu;
+            _notifyIcon.ContextMenuStrip = newMenu;
         }
 
         /// <summary>
