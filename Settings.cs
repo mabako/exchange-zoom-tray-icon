@@ -30,6 +30,7 @@ namespace ExchangeApp
         public string ExchangeUrl { get; set; }
         public string User { get; set; }
         public string Password { get; set; }
+        public bool ShowMeetingIds { get; set; } = true;
 
         public static Settings Load()
         {
@@ -40,15 +41,24 @@ namespace ExchangeApp
             {
                 string content = Unprotect(File.ReadAllBytes(FileName));
                 string[] tokens = content.Split(Splitter);
-                if (tokens.Length != 3)
-                    return new Settings();
-
-                return new Settings
+                if (tokens.Length >= 3)
                 {
-                    ExchangeUrl = tokens[0],
-                    User = tokens[1],
-                    Password = tokens[2],
-                };
+                    var settings = new Settings
+                    {
+                        ExchangeUrl = tokens[0],
+                        User = tokens[1],
+                        Password = tokens[2],
+                    };
+
+                    if (tokens.Length >= 4 && bool.TryParse(tokens[3], out bool b))
+                        settings.ShowMeetingIds = b;
+
+                    return settings;
+                }
+                else
+                {
+                    return new Settings();
+                }
             }
             catch (Exception)
             {
@@ -59,7 +69,7 @@ namespace ExchangeApp
         public void Save()
         {
             File.WriteAllBytes(FileName, Protect(
-                $"{ExchangeUrl}{Splitter}{User}{Splitter}{Password}"));
+                $"{ExchangeUrl}{Splitter}{User}{Splitter}{Password}{Splitter}{(ShowMeetingIds)}"));
         }
 
         private static byte[] Protect(string input)

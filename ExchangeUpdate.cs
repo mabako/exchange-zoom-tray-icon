@@ -146,6 +146,7 @@ namespace ExchangeApp
             StickyEvents = appointments
                 .Where(IsSticky)
                 .Select(ConvertToEvent)
+                .Where(x => x.ZoomId != default)
                 .OrderBy(x => x.Subject)
                 .ThenBy(x => x.MeetingResponseOrder)
                 .ThenBy(x => x.Start)

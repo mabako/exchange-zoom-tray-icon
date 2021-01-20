@@ -62,13 +62,13 @@ namespace ExchangeApp
             }
         }
 
-        public override string ToString() => ToString(true);
+        public override string ToString() => ToString(true, true);
 
-        public string ToString(bool includeTime)
+        public string ToString(bool includeMeetingId, bool includeTime)
         {
             string original = includeTime ? $"{Start:HH:mm} - {Subject}" : Subject;
             string formatted = original;
-            if (ZoomId != default)
+            if (ZoomId != default && includeMeetingId)
                 formatted += $" ({FormattedZoomId})";
 
             if (formatted.Length < 64)

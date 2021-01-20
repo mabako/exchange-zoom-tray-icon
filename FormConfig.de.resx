@@ -135,4 +135,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Konfiguration</value>
   </data>
+  <data name="showMeetingIdsCheckbox.Text" xml:space="preserve">
+    <value>Meeting-IDs anzeigen</value>
+  </data>
 </root>

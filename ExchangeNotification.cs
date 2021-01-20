@@ -103,7 +103,7 @@ namespace ExchangeApp
         public void OnUpdate(IReadOnlyList<EventDetails> upcomingEvents, IReadOnlyList<EventDetails> stickyEvents)
         {
             var nextEvent = upcomingEvents.FirstOrDefault(x => x.End > DateTime.Now && x.Start > DateTime.Now.AddMinutes(-10));
-            _notifyIcon.Text = nextEvent?.ToString() ?? Translations.Tray_Status_No_upcoming_appointments;
+            _notifyIcon.Text = nextEvent?.ToString(_settings.ShowMeetingIds, true) ?? Translations.Tray_Status_No_upcoming_appointments;
             _notifyIcon.Tag = nextEvent?.ZoomLink;
 
             UpdateStatus(nextEvent != null && nextEvent.Start < DateTime.Now.AddMinutes(10) ? AppStatus.UpcomingEvent : AppStatus.NoUpcomingEvents);
@@ -123,7 +123,7 @@ namespace ExchangeApp
             {
                 foreach (EventDetails details in stickyEvents)
                 {
-                    ToolStripMenuItem item = new ToolStripMenuItem(details.ToString(false), Icons.pushpin_line);
+                    ToolStripMenuItem item = new ToolStripMenuItem(details.ToString(_settings.ShowMeetingIds, false), Icons.pushpin_line);
                     item.Tag = details.ZoomLink;
                     item.Click += (sender, e) => OpenZoomLink(item.Tag);
 
@@ -137,7 +137,8 @@ namespace ExchangeApp
             {
                 foreach (EventDetails details in upcomingEvents)
                 {
-                    ToolStripMenuItem item = new ToolStripMenuItem(details.ToString(true));
+                    ToolStripMenuItem item = new ToolStripMenuItem(details.ToString(_settings.ShowMeetingIds, true));
+                    item.Image = details.ZoomId == default ? Icons.question_mark : null;
                     item.Tag = details.ZoomLink;
                     item.Click += (sender, e) => OpenZoomLink(item.Tag);
 
@@ -199,13 +200,14 @@ namespace ExchangeApp
         /// </summary>
         private void OpenConfiguration(object sender, EventArgs e)
         {
-            using (var form = new FormConfig { ExchangeUrl = _settings.ExchangeUrl, User = _settings.User, Password = _settings.Password, })
+            using (var form = new FormConfig { ExchangeUrl = _settings.ExchangeUrl, User = _settings.User, Password = _settings.Password, ShowMeetingIds = _settings.ShowMeetingIds })
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     _settings.ExchangeUrl = form.ExchangeUrl;
                     _settings.User = form.User;
                     _settings.Password = form.Password;
+                    _settings.ShowMeetingIds = form.ShowMeetingIds;
                     _settings.Save();
 
                     _updater.ApplySettings(_settings);

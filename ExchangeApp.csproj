@@ -36,5 +36,8 @@
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>Translations.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="FormConfig.de.resx">
+          <DependentUpon>FormConfig.cs</DependentUpon>
+        </EmbeddedResource>
     </ItemGroup>
 </Project>

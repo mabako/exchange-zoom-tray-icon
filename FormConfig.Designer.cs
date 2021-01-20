@@ -37,6 +37,7 @@
             this.userText = new System.Windows.Forms.TextBox();
             this.passwordLabel = new System.Windows.Forms.Label();
             this.passwordText = new System.Windows.Forms.TextBox();
+            this.showMeetingIdsCheckbox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // save
@@ -84,12 +85,19 @@
             this.passwordText.Name = "passwordText";
             this.passwordText.UseSystemPasswordChar = true;
             // 
+            // showMeetingIdsCheckbox
+            // 
+            resources.ApplyResources(this.showMeetingIdsCheckbox, "showMeetingIdsCheckbox");
+            this.showMeetingIdsCheckbox.Name = "showMeetingIdsCheckbox";
+            this.showMeetingIdsCheckbox.UseVisualStyleBackColor = true;
+            // 
             // FormConfig
             // 
             this.AcceptButton = this.save;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancel;
+            this.Controls.Add(this.showMeetingIdsCheckbox);
             this.Controls.Add(this.passwordLabel);
             this.Controls.Add(this.passwordText);
             this.Controls.Add(this.userLabel);
@@ -118,5 +126,7 @@
         private System.Windows.Forms.TextBox userText;
 
         #endregion
+
+        private System.Windows.Forms.CheckBox showMeetingIdsCheckbox;
     }
 }

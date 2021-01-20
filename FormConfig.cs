@@ -29,5 +29,11 @@ namespace ExchangeApp
             get => passwordText.Text;
             set => passwordText.Text = value;
         }
+
+        public bool ShowMeetingIds
+        {
+            get => showMeetingIdsCheckbox.Checked;
+            set => showMeetingIdsCheckbox.Checked = value;
+        }
     }
 }
