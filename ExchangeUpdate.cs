@@ -172,8 +172,10 @@ namespace ExchangeApp
                 Subject = appointment.Subject,
                 Start = appointment.Start,
                 End = appointment.End,
-                Response = appointment.MyResponseType,
             };
+
+            if (appointment.TryGetProperty(AppointmentSchema.MyResponseType, out MeetingResponseType responseType))
+                details.Response = responseType;
 
             if (TryParseZoomLink(appointment.Location, out string zoomLink, out long zoomId))
             {

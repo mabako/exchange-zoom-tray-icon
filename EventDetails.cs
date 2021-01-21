@@ -28,7 +28,7 @@ namespace ExchangeApp
             }
         }
 
-        public MeetingResponseType Response { get; set; }
+        public MeetingResponseType Response { get; set; } = MeetingResponseType.Unknown;
 
         /// <summary>
         /// To have a somewhat useful order in which meetings are picked to double-click, or first in the list, if both
