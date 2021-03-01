@@ -16,6 +16,24 @@ Initially, you need to set up your EWS configuration once. This requires you to
 be able to connect to your EWS instance, either through a publicly accessible 
 URL or through an established VPN connection.
 
+### Exchange URL
+
+There's (unfortunately) no auto-discovery for your EWS url implemented as of
+right now - which means you must determine the EWS url (typically ending in 
+`/EWS/Exchange.asmx`) manually.
+
+* If you have access to Outlook web mail under an address like
+  `https://mail.example.org/owa/`, the EWS url is typically under 
+  `https://mail.example.org/EWS/Exchange.asmx`.
+* Alternatively, testing the connection settings in Outlook shows the EWS
+  url in the log - an example of how this might look can be found
+  [here](https://support.neuxpower.com/hc/en-us/articles/202482832-Determining-the-Exchange-Web-Services-EWS-URL).
+
+Optionally, you can open the EWS url in a browser, which should show a 
+webservice description of some kind. You *might* need to login with user
+name & password. 
+
+### User name & Password
 * If your computer is part of a domain, only the EWS url itself need to be
   specified.
 * If you're remoting into your work computer from your personal computer, and
